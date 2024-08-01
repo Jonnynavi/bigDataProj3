@@ -17,7 +17,6 @@ with open("home-and-garden.csv", encoding="utf8") as csvfile:
     product_category_price = [[row[1], row[5], float(row[19])] for row in reader]
 
 product_table = [[i, *product_category_price[i]] for i in range(len(product_category_price))]
-print(product_table[2][2])
 
 
 website_names = ["Amazon", "eBay", "Home Depot", "Lowes", "Walmart"]
