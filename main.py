@@ -60,17 +60,6 @@ def random_date():
     generated_datetime = datetime.datetime(year, month, day, hour, minute, second)
     return generated_datetime
 
-if x % 20 == 0:
-    bad_data = random.randrange(1,3)
-    match bad_data:
-        case 1:
-            order_id = None
-            payment_date = None
-        case 2:
-            customer_id = None
-            customer_name = None
-        case 3:
-            qty = None
 
 with open("e_commerce.csv", "w", newline='', encoding='utf8') as csvfile:
     writer = csv.writer(csvfile)
@@ -79,7 +68,21 @@ with open("e_commerce.csv", "w", newline='', encoding='utf8') as csvfile:
         product = random.choice(product_table)
         payment_type = random.choice(list(payment_types_failure.keys()))
         payment_success = "Y" if random.uniform(0, 1) > 0.005 else "N"
-        columns = [
+        if i % 20 == 0:
+            bad_data = random.randrange(1,3)
+ 
+            match bad_data:
+                case 1:
+                    customer[0] = None
+                    customer[1] = None
+                case 2:
+                    product[0] = None
+                    customer[0] = None
+                case 3:
+                    payment_type  = None
+                case 4:
+                    payment_date = 00000000000
+        writer.writerow([
             i,
             customer[0],
             customer[1],
@@ -95,8 +98,4 @@ with open("e_commerce.csv", "w", newline='', encoding='utf8') as csvfile:
             64537 + i,
             payment_success,
             '' if payment_success == "Y" else random.choice(payment_types_failure[payment_type])
-        ]
-        if i % 20 == 0:
-            columns[0] 
-        else:
-            writer.writerow(columns)
+        ])
