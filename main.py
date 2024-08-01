@@ -9,9 +9,7 @@ with open("worldcities.csv", encoding="utf8") as csvfile:
     city_country = [[row[0], row[4]] for row in reader]
 
 customer_table = [[i, names.get_full_name(), *random.choice(city_country)] for i in range(1, 1001)]
-""" print("##Customers Table")
-for c in customer_table:
-    print(c) """
+
 
 with open("home-and-garden.csv", encoding="utf8") as csvfile:
     reader = csv.reader(csvfile)
@@ -20,9 +18,7 @@ with open("home-and-garden.csv", encoding="utf8") as csvfile:
 
 product_table = [[i, *product_category_price[i]] for i in range(len(product_category_price))]
 print(product_table[2][2])
-""" print("##Products Table")
-for p in product_table:
-    print(p) """
+
 
 website_names = ["Amazon", "eBay", "Home Depot", "Lowes", "Walmart"]
 
