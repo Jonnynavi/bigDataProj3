@@ -85,7 +85,7 @@ with open("e_commerce.csv", "w", newline='', encoding='utf8') as csvfile:
             product[1],
             product[2],
             payment_type,
-            random.randrange(0, 10),
+            random.randrange(1, 10),
             product[3],
             random_date(),
             customer[3],
