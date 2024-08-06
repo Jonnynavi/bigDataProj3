@@ -25,3 +25,14 @@ rdd5 = rdd4.map(lambda x: [x[0], int(x[1]), x[2], int(x[3])] + x[4:7] + [int(x[7
 
 # Filter out results that have "/" in website name
 rdd6 = rdd5.filter(lambda x: "/" not in x[12])
+
+# Question 1
+rdd_q1_map = rdd6.map(lambda x: (x[5], 1))
+rdd_q1_dict = rdd_q1_map.reduceByKey(lambda a, b : (a+b))
+# Number of items sold by category in descending order
+print(rdd_q1_dict.sortBy(lambda x: -x[1]).collect())
+# Question 1 Per Country?
+rdd_q1_map_country = rdd6.map(lambda x: (x[10] + ", " + x[5], 1))
+rdd_q1_dict_country = rdd_q1_map_country.reduceByKey(lambda a, b : (a+b)).map(lambda x: x[0].split(',') + [x[1]])
+# Number of items sold by category per country (unsure how to sort atm)
+print(rdd_q1_dict_country.collect())
