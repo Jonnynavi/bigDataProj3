@@ -43,3 +43,38 @@ print(rdd_q3_country.sortBy(lambda x: -x[1]).take(5))
 print(rdd_q3_website.sortBy(lambda x: -x[1]).take(5))
 
 # Question 4
+#extract hour from datetime
+def extract_hour(datetime_str):
+    dt = datetime.datetime.strptime(datetime_str, "%Y-%m-%d %H:%M")
+    return dt.hour
+
+# Count sales per hour per country
+rdd_q4 = rdd6.map(lambda x: ((x[10], extract_hour(x[9])), 1)) \
+              .reduceByKey(lambda a, b: a + b)
+
+# Count sales per hour for all countries
+rdd_q4_overall = rdd6.map(lambda x: (extract_hour(x[9]), 1)) \
+                     .reduceByKey(lambda a, b: a + b)
+
+# Sort and organize sales per hour per country
+rdd_q4_sorted = rdd_q4.map(lambda x: (x[0][0], (x[0][1], x[1]))) \
+                      .groupByKey() \
+                      .mapValues(lambda hours: sorted(hours, key=lambda x: -x[1]))
+
+# Sort and organize sales per hour overall
+rdd_q4_overall_sorted = rdd_q4_overall.map(lambda x: (x[0], x[1])) \
+                                      .sortBy(lambda x: -x[1])
+
+# Collect and display top 3 hours with highest traffic for each country
+results = rdd_q4_sorted.collect()
+for country, hours in results:
+    print(f"Country: {country}")
+    for hour, count in hours[:3]:
+        print(f"Hour: {hour}, Sales: {count}")
+    print()
+
+# Collect and display top 3 hours with highest traffic over all countries
+overall_results = rdd_q4_overall_sorted.collect()
+print("Overall Sales Traffic:")
+for hour, count in overall_results[:3]:
+    print(f"Hour: {hour}, Sales: {count}")
