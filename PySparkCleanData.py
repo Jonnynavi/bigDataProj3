@@ -33,6 +33,17 @@ print(rdd_q1_part_a.sortBy(lambda x: -x[1]).collect())
 rdd_q1_part_b = rdd6.map(lambda x: ((x[10], x[5]), 1)).reduceByKey(lambda a, b: a+b).map(lambda x: (x[0][0], [x[0][1]] + [x[1]])).reduceByKey(lambda a, b: max(a, b, key=lambda x: x[-1]))
 print(rdd_q1_part_b.sortBy(lambda x: x[0]).take(5))
 
+#extract month from datetime
+def extract_month(datetime_str):
+    dt = datetime.datetime.strptime(datetime_str, "%Y-%m-%d %H:%M")
+    return dt.month
+
+#Question 2 - Part a
+rdd_q2_part_a = rdd6.map(lambda x: ((x[4], extract_month(x[9])), x[7])).reduceByKey(lambda a, b: (a+b)).map(lambda x: (x[0][0], x[0][1], x[1])) # Gives rdd of form (Product name, month, sales)
+print(rdd_q2_part_a.sortBy(lambda x: -x[2]).collect())
+#Question 2 - Part b Per Country
+rdd_q2_part_b = rdd6.map(lambda x: ((x[4], extract_month(x[9]), x[10]), x[7])).reduceByKey(lambda a, b: (a+b)).map(lambda x: (x[0][0], x[0][1], x[0][2], x[1])) # Gives rdd of form (Product name, month, country, sales)
+print(rdd_q2_part_b.sortBy(lambda x: -x[3]).collect())
 
 # Question 3 
 rdd_q3_city = rdd6.map(lambda x: (x[11], 1)).reduceByKey(lambda a, b:(a+b)) # Number of sales by city
