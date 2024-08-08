@@ -89,3 +89,19 @@ overall_results = rdd_q4_overall_sorted.collect()
 print("Overall Sales Traffic:")
 for hour, count in overall_results[:3]:
     print(f"Hour: {hour}, Sales: {count}")
+
+# Collect and prepare data for CSV
+country_hourly_sales = [(country, hour, sales) for country, hours in rdd_q4_sorted.collect() for hour, sales in hours]
+all_country_hourly_sales = rdd_q4_overall_sorted.collect()
+
+# Save to 4.1 to country_hourly_sales CSV
+with open("country_hourly_sales.csv", "w") as f:
+    writer = csv.writer(f)
+    writer.writerow(["Country", "Hour", "Sales"])
+    writer.writerows(country_hourly_sales)
+
+# Save 4.2 to all_country_hourly_sales.csv
+with open("all_country_hourly_sales.csv", "w") as f:
+    writer = csv.writer(f)
+    writer.writerow(["Hour", "Sales"])
+    writer.writerows(all_country_hourly_sales)
