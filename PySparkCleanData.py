@@ -77,18 +77,18 @@ rdd_q4_overall_sorted = rdd_q4_overall.map(lambda x: (x[0], x[1])) \
                                       .sortBy(lambda x: -x[1])
 
 # Collect and display top 3 hours with highest traffic for each country
-results = rdd_q4_sorted.collect()
-for country, hours in results:
-    print(f"Country: {country}")
-    for hour, count in hours[:3]:
-        print(f"Hour: {hour}, Sales: {count}")
-    print()
+# results = rdd_q4_sorted.collect()
+# for country, hours in results:
+#     print(f"Country: {country}")
+#     for hour, count in hours[:3]:
+#         print(f"Hour: {hour}, Sales: {count}")
+#     print()
 
 # Collect and display top 3 hours with highest traffic over all countries
-overall_results = rdd_q4_overall_sorted.collect()
-print("Overall Sales Traffic:")
-for hour, count in overall_results[:3]:
-    print(f"Hour: {hour}, Sales: {count}")
+# overall_results = rdd_q4_overall_sorted.collect()
+# print("Overall Sales Traffic:")
+# for hour, count in overall_results[:3]:
+#     print(f"Hour: {hour}, Sales: {count}")
 
 # Collect and prepare data for CSV
 country_hourly_sales = [(country, hour, sales) for country, hours in rdd_q4_sorted.collect() for hour, sales in hours]
